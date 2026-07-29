@@ -1,3 +1,6 @@
 pandas
 Faker
 duckdb
+dbt-duckdb
+streamlit
+plotly

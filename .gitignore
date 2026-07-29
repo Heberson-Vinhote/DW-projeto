@@ -1,2 +1,10 @@
 data/
 ecommerce.db
+
+# dbt
+ecommerce_dbt/logs/
+ecommerce_dbt/target/
+ecommerce_dbt/dbt_packages/
+logs/
+ecommerce_dbt/.user.yml
+streamlit.log

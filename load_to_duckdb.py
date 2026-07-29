@@ -5,41 +5,44 @@ def main():
     print("Conectando ao banco de dados DuckDB (ecommerce.db)...")
     con = duckdb.connect(database='ecommerce.db')
 
-    print("Carregando Dimensão Cliente...")
+    # Cria o schema bruto (onde caem os dados da fonte)
+    con.execute("CREATE SCHEMA IF NOT EXISTS raw;")
+
+    print("Carregando Cliente Bruto...")
     con.execute('''
-        CREATE TABLE IF NOT EXISTS dim_cliente AS
-        SELECT * FROM read_csv_auto('data/dim_cliente.csv');
+        CREATE OR REPLACE TABLE raw.raw_cliente AS
+        SELECT * FROM read_csv_auto('data/raw_cliente.csv');
     ''')
 
-    print("Carregando Dimensão Produto...")
+    print("Carregando Produto Bruto...")
     con.execute('''
-        CREATE TABLE IF NOT EXISTS dim_produto AS
-        SELECT * FROM read_csv_auto('data/dim_produto.csv');
+        CREATE OR REPLACE TABLE raw.raw_produto AS
+        SELECT * FROM read_csv_auto('data/raw_produto.csv');
     ''')
 
-    print("Carregando Dimensão Loja...")
+    print("Carregando Loja Bruto...")
     con.execute('''
-        CREATE TABLE IF NOT EXISTS dim_loja AS
-        SELECT * FROM read_csv_auto('data/dim_loja.csv');
+        CREATE OR REPLACE TABLE raw.raw_loja AS
+        SELECT * FROM read_csv_auto('data/raw_loja.csv');
     ''')
 
-    print("Carregando Dimensão Tempo...")
+    print("Carregando Tempo Bruto...")
     con.execute('''
-        CREATE TABLE IF NOT EXISTS dim_tempo AS
-        SELECT * FROM read_csv_auto('data/dim_tempo.csv');
+        CREATE OR REPLACE TABLE raw.raw_tempo AS
+        SELECT * FROM read_csv_auto('data/raw_tempo.csv');
     ''')
 
-    print("Carregando Fato Vendas...")
+    print("Carregando Vendas Brutas...")
     con.execute('''
-        CREATE TABLE IF NOT EXISTS fato_vendas AS
-        SELECT * FROM read_csv_auto('data/fato_vendas.csv');
+        CREATE OR REPLACE TABLE raw.raw_vendas AS
+        SELECT * FROM read_csv_auto('data/raw_vendas.csv');
     ''')
 
-    print("\nValidando a carga dos dados (contagem de registros):")
-    tables = ['dim_cliente', 'dim_produto', 'dim_loja', 'dim_tempo', 'fato_vendas']
+    print("\nValidando a carga dos dados (contagem de registros no schema raw):")
+    tables = ['raw_cliente', 'raw_produto', 'raw_loja', 'raw_tempo', 'raw_vendas']
     for table in tables:
-        count = con.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
-        print(f" - {table}: {count} registros")
+        count = con.execute(f"SELECT COUNT(*) FROM raw.{table}").fetchone()[0]
+        print(f" - raw.{table}: {count} registros")
 
     con.close()
     print("Carga concluída com sucesso e conexão fechada.")

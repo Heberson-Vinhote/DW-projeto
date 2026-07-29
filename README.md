@@ -4,9 +4,14 @@ Este é um projeto de Data Warehouse construído do zero, idealizado para compor
 
 ## 🏗 Arquitetura do Projeto
 O pipeline de dados foi desenhado da seguinte maneira:
-1. **Geração de Dados (ETL/ELT)**: Scripts em **Python** utilizando `pandas` e `Faker` para gerar dados transacionais (vendas, clientes, produtos e lojas) em formato CSV.
-2. **Armazenamento e Processamento**: **DuckDB**, um SGBD analítico (OLAP) embutido que roda localmente, foi escolhido por ser leve e extremamente rápido em consultas analíticas.
-3. **Análise de Dados**: Consultas **SQL** para extrair métricas e responder a perguntas de negócio.
+1. **Extração e Carga (Extract & Load)**: Scripts em **Python** utilizando `pandas` e `Faker` geram dados brutos transacionais simulando fontes externas e os carregam em um schema `raw` no **DuckDB**.
+2. **Transformação e Qualidade (Transform)**: O **dbt (Data Build Tool)** atua na camada analítica para:
+   - Limpar e modelar os dados brutos no formato de um Star Schema.
+   - Calcular métricas de negócio (como o Valor Total de cada venda).
+   - Executar testes de qualidade automáticos (garantindo que não existam IDs nulos ou duplicados).
+3. **Armazenamento (Data Warehouse)**: O repositório utiliza o **DuckDB**, um banco de dados OLAP embutido e de altíssimo desempenho, como a engine principal.
+4. **Análise de Dados**: Consultas **SQL** prontas para extrair métricas de alto nível.
+5. **Visualização (Apresentação)**: Dashboard interativo desenvolvido 100% em **Python (Streamlit)** e integração preparada para **Microsoft Power BI**.
 
 ## 📊 Modelagem Dimensional (Star Schema)
 
@@ -65,20 +70,29 @@ Certifique-se de ter o Python instalado. Clone este repositório e instale as de
 pip install -r requirements.txt
 ```
 
-### 2. Geração dos Dados
-Execute o script para gerar os dados fictícios. Os arquivos `.csv` serão salvos no diretório `data/`.
+### 2. Executar o Pipeline (Orquestração)
+Você pode rodar todo o pipeline de ponta a ponta através do script principal. Ele irá gerar os dados, criar o banco de dados e executar as queries:
 ```bash
-python generate_data.py
+python run_pipeline.py
 ```
 
-### 3. Carga dos Dados (Load to DuckDB)
-Execute o script de carga. Ele criará o banco local `ecommerce.db` (DuckDB) e persistirá as dimensões e os fatos.
+### 📈 Visualização: Executar o Dashboard em Streamlit (Python)
+Para visualizar as métricas do Data Warehouse em uma página web interativa, execute o seguinte comando:
 ```bash
-python load_to_duckdb.py
+streamlit run dashboard.py
 ```
+*(Isso abrirá uma nova aba no seu navegador padrão com os gráficos gerados dinamicamente)*
 
-### 4. Análise de Dados (Queries)
-Por fim, execute o script de análise, que rodará as perguntas de negócio desenhadas no arquivo `analytics_queries.sql` e apresentará os resultados no terminal (usando Pandas).
-```bash
-python run_queries.py
-```
+### 📈 Visualização: Integração com Microsoft Power BI
+Para criar Dashboards e visualizações em cima dos dados gerados, você pode integrar este projeto diretamente com o Power BI das seguintes maneiras:
+
+**Opção 1: Via CSV (Mais Simples)**
+1. Abra o Power BI Desktop.
+2. Vá em **Obter Dados** > **Texto/CSV**.
+3. Navegue até a pasta `data/` do repositório e importe cada um dos arquivos (`fato_vendas.csv`, `dim_cliente.csv`, etc.).
+4. No Power BI, vá na aba **Exibição de Modelo** e conecte os `ID`s da tabela Fato com os `ID`s das tabelas Dimensão formando o Esquema Estrela.
+
+**Opção 2: Via DuckDB ODBC (Avançado)**
+1. Instale o driver [DuckDB ODBC](https://duckdb.org/docs/api/odbc/overview).
+2. Configure uma conexão DSN (Data Source Name) no Windows apontando para o arquivo `ecommerce.db` na raiz do projeto.
+3. No Power BI, vá em **Obter Dados** > **ODBC** e selecione a conexão criada.
