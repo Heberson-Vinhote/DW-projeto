@@ -4,10 +4,14 @@ Este é um projeto de Data Warehouse construído do zero, idealizado para compor
 
 ## 🏗 Arquitetura do Projeto
 O pipeline de dados foi desenhado da seguinte maneira:
-1. **Geração de Dados (ETL/ELT)**: Scripts em **Python** utilizando `pandas` e `Faker` para gerar dados transacionais (vendas, clientes, produtos e lojas) em formato CSV.
-2. **Armazenamento e Processamento**: **DuckDB**, um SGBD analítico (OLAP) embutido que roda localmente, foi escolhido por ser leve e extremamente rápido em consultas analíticas.
-3. **Análise de Dados**: Consultas **SQL** para extrair métricas e responder a perguntas de negócio.
-4. **Visualização (Camada de Apresentação)**: Preparado para conexão com **Microsoft Power BI**.
+1. **Extração e Carga (Extract & Load)**: Scripts em **Python** utilizando `pandas` e `Faker` geram dados brutos transacionais simulando fontes externas e os carregam em um schema `raw` no **DuckDB**.
+2. **Transformação e Qualidade (Transform)**: O **dbt (Data Build Tool)** atua na camada analítica para:
+   - Limpar e modelar os dados brutos no formato de um Star Schema.
+   - Calcular métricas de negócio (como o Valor Total de cada venda).
+   - Executar testes de qualidade automáticos (garantindo que não existam IDs nulos ou duplicados).
+3. **Armazenamento (Data Warehouse)**: O repositório utiliza o **DuckDB**, um banco de dados OLAP embutido e de altíssimo desempenho, como a engine principal.
+4. **Análise de Dados**: Consultas **SQL** prontas para extrair métricas de alto nível.
+5. **Visualização (Apresentação)**: Arquitetura preparada para conexão nativa com **Microsoft Power BI**.
 
 ## 📊 Modelagem Dimensional (Star Schema)
 

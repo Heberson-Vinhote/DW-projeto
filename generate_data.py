@@ -70,8 +70,6 @@ def generate_fato_vendas(num_records, dim_cliente, dim_produto, dim_loja):
 
         quantidade = random.randint(1, 5)
         valor_unitario = produto['preco']
-        valor_total = quantidade * valor_unitario
-
         data.append({
             'id_venda': i,
             'id_cliente': cliente['id_cliente'],
@@ -79,8 +77,7 @@ def generate_fato_vendas(num_records, dim_cliente, dim_produto, dim_loja):
             'id_loja': loja['id_loja'],
             'data_venda': data_venda.strftime('%Y-%m-%d'),
             'quantidade': quantidade,
-            'valor_unitario': valor_unitario,
-            'valor_total': round(valor_total, 2)
+            'valor_unitario': valor_unitario
         })
 
     return pd.DataFrame(data)
@@ -117,11 +114,11 @@ def main():
     df_vendas = generate_fato_vendas(2000, df_cliente, df_produto, df_loja)
 
     print("Salvando dados na pasta 'data/'...")
-    df_cliente.to_csv('data/dim_cliente.csv', index=False)
-    df_produto.to_csv('data/dim_produto.csv', index=False)
-    df_loja.to_csv('data/dim_loja.csv', index=False)
-    df_tempo.to_csv('data/dim_tempo.csv', index=False)
-    df_vendas.to_csv('data/fato_vendas.csv', index=False)
+    df_cliente.to_csv('data/raw_cliente.csv', index=False)
+    df_produto.to_csv('data/raw_produto.csv', index=False)
+    df_loja.to_csv('data/raw_loja.csv', index=False)
+    df_tempo.to_csv('data/raw_tempo.csv', index=False)
+    df_vendas.to_csv('data/raw_vendas.csv', index=False)
 
     print("Geração concluída com sucesso!")
 

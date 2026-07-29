@@ -1,0 +1,56 @@
+version: 2
+
+models:
+  - name: dim_cliente
+    description: "Tabela dimensão de clientes."
+    columns:
+      - name: id_cliente
+        description: "Chave primária do cliente."
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_produto
+    description: "Tabela dimensão de produtos."
+    columns:
+      - name: id_produto
+        description: "Chave primária do produto."
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_loja
+    description: "Tabela dimensão de lojas."
+    columns:
+      - name: id_loja
+        description: "Chave primária da loja."
+        tests:
+          - unique
+          - not_null
+
+  - name: fato_vendas
+    description: "Tabela fato de vendas com cálculo do valor total."
+    columns:
+      - name: id_venda
+        description: "Chave primária da venda."
+        tests:
+          - unique
+          - not_null
+      - name: id_cliente
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_cliente')
+              field: id_cliente
+      - name: id_produto
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_produto')
+              field: id_produto
+      - name: id_loja
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_loja')
+              field: id_loja
