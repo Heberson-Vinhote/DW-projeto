@@ -65,8 +65,20 @@ A tabela fato armazena as transações (os eventos de venda).
 Siga as instruções abaixo para recriar o ambiente, gerar os dados e realizar as análises:
 
 ### 1. Configuração do Ambiente
-Certifique-se de ter o Python instalado. Clone este repositório e instale as dependências:
+Certifique-se de ter o Python instalado. Clone este repositório.
+É **altamente recomendável** criar um ambiente virtual (para evitar conflitos e garantir que o comando `dbt` seja reconhecido corretamente pelo seu terminal):
+
+**No Windows:**
 ```bash
+python -m venv venv
+.\venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+**No Linux/Mac:**
+```bash
+python -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 ```
 
