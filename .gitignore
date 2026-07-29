@@ -7,3 +7,4 @@ ecommerce_dbt/target/
 ecommerce_dbt/dbt_packages/
 logs/
 ecommerce_dbt/.user.yml
+streamlit.log

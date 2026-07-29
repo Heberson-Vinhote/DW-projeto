@@ -11,7 +11,7 @@ O pipeline de dados foi desenhado da seguinte maneira:
    - Executar testes de qualidade automáticos (garantindo que não existam IDs nulos ou duplicados).
 3. **Armazenamento (Data Warehouse)**: O repositório utiliza o **DuckDB**, um banco de dados OLAP embutido e de altíssimo desempenho, como a engine principal.
 4. **Análise de Dados**: Consultas **SQL** prontas para extrair métricas de alto nível.
-5. **Visualização (Apresentação)**: Arquitetura preparada para conexão nativa com **Microsoft Power BI**.
+5. **Visualização (Apresentação)**: Dashboard interativo desenvolvido 100% em **Python (Streamlit)** e integração preparada para **Microsoft Power BI**.
 
 ## 📊 Modelagem Dimensional (Star Schema)
 
@@ -76,7 +76,14 @@ Você pode rodar todo o pipeline de ponta a ponta através do script principal. 
 python run_pipeline.py
 ```
 
-### 📈 Integração com Microsoft Power BI
+### 📈 Visualização: Executar o Dashboard em Streamlit (Python)
+Para visualizar as métricas do Data Warehouse em uma página web interativa, execute o seguinte comando:
+```bash
+streamlit run dashboard.py
+```
+*(Isso abrirá uma nova aba no seu navegador padrão com os gráficos gerados dinamicamente)*
+
+### 📈 Visualização: Integração com Microsoft Power BI
 Para criar Dashboards e visualizações em cima dos dados gerados, você pode integrar este projeto diretamente com o Power BI das seguintes maneiras:
 
 **Opção 1: Via CSV (Mais Simples)**
