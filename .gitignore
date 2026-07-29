@@ -1,6 +1,12 @@
 data/
 ecommerce.db
 
+# Python virtual environments
+venv/
+env/
+.venv/
+.env/
+
 # dbt
 ecommerce_dbt/logs/
 ecommerce_dbt/target/
