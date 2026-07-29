@@ -14,3 +14,4 @@ ecommerce_dbt/dbt_packages/
 logs/
 ecommerce_dbt/.user.yml
 streamlit.log
+test_dashboard.log

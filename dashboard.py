@@ -94,10 +94,10 @@ if not df_vendas.empty:
         st.markdown("**Top Clientes (por valor gasto)**")
         top_clientes = df_vendas.groupby('cliente')['valor_total'].sum().sort_values(ascending=False).head(5).reset_index()
         top_clientes['valor_total'] = top_clientes['valor_total'].apply(lambda x: f"R$ {x:,.2f}")
-        st.dataframe(top_clientes, use_container_width=True)
+        st.dataframe(top_clientes, width='stretch')
 
     with col_table2:
         st.markdown("**Top Lojas (por faturamento)**")
         top_lojas = df_vendas.groupby(['nome_loja', 'cidade_loja'])['valor_total'].sum().sort_values(ascending=False).head(5).reset_index()
         top_lojas['valor_total'] = top_lojas['valor_total'].apply(lambda x: f"R$ {x:,.2f}")
-        st.dataframe(top_lojas, use_container_width=True)
+        st.dataframe(top_lojas, width='stretch')
