@@ -101,6 +101,10 @@ O projeto resulta em um dashboard executivo estruturado. Veja um exemplo do pain
 
 ![Dashboard Power BI](assets/powerbi_dashboard.png)
 
+Recentemente também adicionamos um indicador de "Taxa de Inadimplência" baseada nos dados do Streamlit:
+
+![Print da Taxa de Inadimplência](assets/dashboard_inadimplencia.png)
+
 Para criar Dashboards e visualizações em cima dos dados gerados, você pode integrar este projeto diretamente com o Power BI das seguintes maneiras:
 
 **Opção 1: Via Parquet (Recomendado e Nativo)**

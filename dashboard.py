@@ -21,6 +21,7 @@ def load_data():
             SELECT
                 f.id_venda,
                 c.nome as cliente,
+                c.inadimplente,
                 p.nome_produto,
                 p.categoria,
                 l.nome_loja,
@@ -39,16 +40,20 @@ def load_data():
         """
         df = con.execute(query).fetchdf()
 
+        # Busca base de clientes única para calcular a taxa de inadimplência corretamente
+        query_clientes = "SELECT id_cliente, inadimplente FROM main.dim_cliente"
+        df_clientes = con.execute(query_clientes).fetchdf()
+
         # Converte a string de data para datetime no pandas
         df['data'] = pd.to_datetime(df['data'])
         con.close()
-        return df
+        return df, df_clientes
     except Exception as e:
         st.error(f"Erro ao carregar banco de dados. Certifique-se que o banco foi gerado rodando `python run_pipeline.py`. Detalhes: {e}")
-        return pd.DataFrame()
+        return pd.DataFrame(), pd.DataFrame()
 
 # Carregar os dados
-df_vendas = load_data()
+df_vendas, df_clientes = load_data()
 
 if not df_vendas.empty:
     # --- MÉTRICAS GERAIS (KPIs) ---
@@ -61,6 +66,34 @@ if not df_vendas.empty:
     col1.metric("Receita Total", f"R$ {receita_total:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
     col2.metric("Qtd. de Pedidos", total_vendas)
     col3.metric("Ticket Médio", f"R$ {ticket_medio:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
+
+    st.markdown("---")
+
+    import plotly.graph_objects as go
+
+    st.header("Análise de Inadimplência")
+
+    total_clientes = len(df_clientes)
+    clientes_inadimplentes = len(df_clientes[df_clientes['inadimplente'] == True])
+    taxa_inadimplencia = (clientes_inadimplentes / total_clientes * 100) if total_clientes > 0 else 0
+
+    fig_gauge = go.Figure(go.Indicator(
+        mode = "gauge+number",
+        value = taxa_inadimplencia,
+        domain = {'x': [0, 1], 'y': [0, 1]},
+        title = {'text': "Taxa de Inadimplência (%)"},
+        gauge = {
+            'axis': {'range': [None, 100]},
+            'steps': [
+                {'range': [0, 20], 'color': "lightgreen"},
+                {'range': [20, 50], 'color': "yellow"},
+                {'range': [50, 100], 'color': "salmon"}
+            ],
+            'bar': {'color': "black"}
+        }
+    ))
+
+    st.plotly_chart(fig_gauge, use_container_width=True)
 
     st.markdown("---")
 

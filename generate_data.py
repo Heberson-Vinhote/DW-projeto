@@ -16,7 +16,8 @@ def generate_dim_cliente(num_records):
             'nome': fake.name(),
             'email': fake.email(),
             'cidade': fake.city(),
-            'estado': fake.state_abbr()
+            'estado': fake.state_abbr(),
+            'inadimplente': random.choices([True, False], weights=[0.25, 0.75])[0]
         })
     return pd.DataFrame(data)
 

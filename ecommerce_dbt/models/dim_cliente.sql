@@ -3,5 +3,6 @@ SELECT
     nome,
     email,
     cidade,
-    estado
+    estado,
+    inadimplente
 FROM raw.raw_cliente
