@@ -50,6 +50,9 @@ def main():
     # 5. Análise (Analytics)
     run_script('run_queries.py')
 
+    # 6. Preparação para o Power BI
+    run_script('export_for_powerbi.py')
+
     print("\n" + "="*50)
     print("🚀 Pipeline E-L-T completo executado com sucesso!")
     print("="*50)
