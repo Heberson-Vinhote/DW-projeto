@@ -98,10 +98,10 @@ streamlit run dashboard.py
 ### 📈 Visualização: Integração com Microsoft Power BI
 Para criar Dashboards e visualizações em cima dos dados gerados, você pode integrar este projeto diretamente com o Power BI das seguintes maneiras:
 
-**Opção 1: Via CSV (Mais Simples)**
+**Opção 1: Via CSV (Recomendado)**
 1. Abra o Power BI Desktop.
 2. Vá em **Obter Dados** > **Texto/CSV**.
-3. Navegue até a pasta `data/` do repositório e importe cada um dos arquivos (`fato_vendas.csv`, `dim_cliente.csv`, etc.).
+3. Navegue até a pasta `powerbi_data/` do repositório (criada automaticamente pelo script) e importe cada um dos arquivos (`fato_vendas.csv`, `dim_cliente.csv`, etc.).
 4. No Power BI, vá na aba **Exibição de Modelo** e conecte os `ID`s da tabela Fato com os `ID`s das tabelas Dimensão formando o Esquema Estrela.
 
 **Opção 2: Via DuckDB ODBC (Avançado)**

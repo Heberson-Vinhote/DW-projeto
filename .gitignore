@@ -1,6 +1,9 @@
 data/
 ecommerce.db
 
+# Power BI
+powerbi_data/
+
 # Python virtual environments
 venv/
 env/
