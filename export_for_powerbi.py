@@ -20,17 +20,28 @@ def main():
         'fato_vendas'
     ]
 
+    absolute_paths = []
+
     for table in tables:
         output_file = f"{output_dir}/{table}.parquet"
         print(f"Exportando {table} para {output_file}...")
 
         try:
             con.execute(f"COPY main.{table} TO '{output_file}' (FORMAT PARQUET);")
+            absolute_paths.append(os.path.abspath(output_file))
         except Exception as e:
             print(f"[ERRO] Não foi possível exportar a tabela {table}: {e}")
 
     con.close()
-    print("Exportação concluída com sucesso! Os arquivos Parquet estão na pasta 'powerbi_data/'.")
+
+    print("\n==================================================")
+    print("Exportação concluída com sucesso!")
+    print("Os arquivos Parquet estão na pasta 'powerbi_data/'.")
+    print("==================================================")
+    print("No Power BI, cole os caminhos abaixo no campo 'URL':")
+    for path in absolute_paths:
+        print(f" -> {path}")
+    print("==================================================\n")
 
 if __name__ == "__main__":
     main()

@@ -101,8 +101,10 @@ Para criar Dashboards e visualizações em cima dos dados gerados, você pode in
 **Opção 1: Via Parquet (Recomendado e Nativo)**
 1. Abra o Power BI Desktop.
 2. Vá em **Obter Dados** > **Mais...** > **Parquet**.
-3. Navegue até a pasta `powerbi_data/` do repositório (criada automaticamente pelo script) e importe cada um dos arquivos (`fato_vendas.parquet`, `dim_cliente.parquet`, etc.). (Nota: O formato Parquet é recomendado pois preserva perfeitamente os tipos de dados e elimina problemas com formatos numéricos locais).
-4. No Power BI, vá na aba **Exibição de Modelo** e conecte os `ID`s da tabela Fato com os `ID`s das tabelas Dimensão formando o Esquema Estrela.
+3. O Power BI pedirá uma **URL**. Apesar do nome, **você deve colar o caminho completo (local) do arquivo** no seu computador (Ex: `C:\Users\SeuNome\DW-Project\powerbi_data\fato_vendas.parquet`).
+    * *Dica: Ao rodar o pipeline, o script `export_for_powerbi.py` imprimirá no terminal exatamente os caminhos que você precisa copiar e colar.*
+4. Importe cada um dos arquivos gerados (`fato_vendas.parquet`, `dim_cliente.parquet`, etc.). (Nota: O formato Parquet é recomendado pois preserva perfeitamente os tipos de dados e elimina problemas com formatos numéricos locais).
+5. No Power BI, vá na aba **Exibição de Modelo** e conecte os `ID`s da tabela Fato com os `ID`s das tabelas Dimensão formando o Esquema Estrela.
 
 **Opção 2: Via DuckDB ODBC (Avançado)**
 1. Instale o driver [DuckDB ODBC](https://duckdb.org/docs/api/odbc/overview).
