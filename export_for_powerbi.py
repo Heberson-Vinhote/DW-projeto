@@ -1,6 +1,5 @@
 import duckdb
 import os
-import pandas as pd
 
 def main():
     print("Conectando ao DuckDB para exportação...")
@@ -22,19 +21,16 @@ def main():
     ]
 
     for table in tables:
-        output_file = f"{output_dir}/{table}.csv"
+        output_file = f"{output_dir}/{table}.parquet"
         print(f"Exportando {table} para {output_file}...")
 
         try:
-            # Lemos a tabela como um DataFrame pandas
-            df = con.execute(f"SELECT * FROM main.{table}").df()
-            # Exportamos com separador ponto-e-vírgula e vírgula como decimal (ideal para Power BI PT-BR)
-            df.to_csv(output_file, index=False, sep=';', decimal=',')
+            con.execute(f"COPY main.{table} TO '{output_file}' (FORMAT PARQUET);")
         except Exception as e:
             print(f"[ERRO] Não foi possível exportar a tabela {table}: {e}")
 
     con.close()
-    print("Exportação concluída com sucesso! Os arquivos estão na pasta 'powerbi_data/'.")
+    print("Exportação concluída com sucesso! Os arquivos Parquet estão na pasta 'powerbi_data/'.")
 
 if __name__ == "__main__":
     main()
