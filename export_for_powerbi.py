@@ -1,5 +1,6 @@
 import duckdb
 import os
+import pandas as pd
 
 def main():
     print("Conectando ao DuckDB para exportação...")
@@ -24,10 +25,11 @@ def main():
         output_file = f"{output_dir}/{table}.csv"
         print(f"Exportando {table} para {output_file}...")
 
-        # O DuckDB possui uma função nativa maravilhosa para exportar para CSV
-        query = f"COPY main.{table} TO '{output_file}' (HEADER, DELIMITER ',');"
         try:
-            con.execute(query)
+            # Lemos a tabela como um DataFrame pandas
+            df = con.execute(f"SELECT * FROM main.{table}").df()
+            # Exportamos com separador ponto-e-vírgula e vírgula como decimal (ideal para Power BI PT-BR)
+            df.to_csv(output_file, index=False, sep=';', decimal=',')
         except Exception as e:
             print(f"[ERRO] Não foi possível exportar a tabela {table}: {e}")
 
