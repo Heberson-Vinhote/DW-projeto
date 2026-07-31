@@ -96,6 +96,11 @@ streamlit run dashboard.py
 *(Isso abrirá uma nova aba no seu navegador padrão com os gráficos gerados dinamicamente)*
 
 ### 📈 Visualização: Integração com Microsoft Power BI
+
+O projeto resulta em um dashboard executivo estruturado. Veja um exemplo do painel construído em Power BI:
+
+![Dashboard Power BI](assets/powerbi_dashboard.png)
+
 Para criar Dashboards e visualizações em cima dos dados gerados, você pode integrar este projeto diretamente com o Power BI das seguintes maneiras:
 
 **Opção 1: Via Parquet (Recomendado e Nativo)**
